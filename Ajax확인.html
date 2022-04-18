@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Ajax실행</h1>
+    <button id="btn">버튼</button>
+    <p id="print"></p>
+
+    <a href="./data.txt">값가져오기</a>
+    <p>a태그를 통해서 들고오게 되면 전체를 서버에서 들고오게 됩니다</p>
+    <script>
+      // HTTP 요청을 만들 수 있는 객체 생성
+      const req = new XMLHttpRequest();
+
+      // req의 상태가 바뀔 때마다 호출되는 메소드 (callback 메소드)
+      /*
+        readyState : 0~4
+        0 : open 메소드 호출 전
+        1 : open 메소드 호출 후, send 메소드 호출 전
+        2 : 보낸 요청에 대해 응답하거나 수신된 후
+        3 : 응답의 바디 부분이 수신중일 때
+        4 : 모든 응답이 수신되었을 때
+      */
+      req.onreadystatechange = function a() {
+        console.log(this.readyState);
+        // 응답 번호 확인
+        console.log(this.status);
+        // 모든 응답이 수신되고 응답 번호가 200일 때 콘솔에 출력
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.response);
+        }
+      };
+
+      // http request method(GET, POST) 가져 올 url 설정
+      req.open("GET", "./data.txt");
+
+      // 요청 전송
+      req.send();
+
+      // 응답 확인 : req.response에서 확인
+      console.log(req.response);
+
+      // 현재 send()를 보내자마자 바로 접근하기에 안에 값이 비어있음
+      // 그러면 값이 들어왔다면 실행할 수 있도록 해주어야 한다 (callback)
+      // F12을 눌러 개발자도구에서 확인하면 들어와 있는 것을 볼 수 있다
+
+      // DOM 에 이벤트를 붙이는 순서
+      // id 혹은 class 값을 찾아서 addEventListener("이벤트방식", 실행될 함수)
+      const btn = document.querySelector("#btn");
+      const printtext = document.querySelector("#print");
+
+      btn.addEventListener("click", function () {
+        const btnreq = new XMLHttpRequest();
+        btnreq.onreadystatechange = function a() {
+          if (this.readyState == 4 && this.status == 200) {
+            printtext.innerHTML = this.response;
+          }
+        };
+        req.open("GET", "./btndata.txt");
+        req.send();
+      });
+    </script>
+  </body>
+</html>
