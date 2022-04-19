@@ -10,6 +10,8 @@
     <h1>Ajax실행</h1>
     <button id="btn">버튼</button>
     <p id="print"></p>
+    <button id="btnjson">json버튼</button>
+    <p id="printjson"></p>
 
     <a href="./data.txt">값가져오기</a>
     <p>a태그를 통해서 들고오게 되면 전체를 서버에서 들고오게 됩니다</p>
@@ -61,8 +63,32 @@
             printtext.innerHTML = this.response;
           }
         };
-        req.open("GET", "./btndata.txt");
-        req.send();
+        btnreq.open("GET", "./btndata.txt");
+        btnreq.send();
+      });
+
+      // json 데이터 들고오기
+      const btnjson = document.querySelector("#btnjson");
+      const printjson = document.querySelector("#printjson");
+
+      btnjson.addEventListener("click", function () {
+        const btnjsonreq = new XMLHttpRequest();
+        btnjsonreq.onreadystatechange = function a() {
+          if (this.readyState == 4 && this.status == 200) {
+            // json 형식으로 들고와도 string 값으로 출력된다
+            // string 형식은 객체 형식으로 출력할 수 없음
+            console.log(typeof this.response);
+
+            // JSON.parse를 통해서 자바스크립트 객체로 들고올 수 있다
+            const data = JSON.parse(this.response);
+            console.log(typeof data);
+
+            // JSON.parse를 통해서 만들어 준 객체에 접근하여 속성사용
+            printjson.innerHTML = data.memo;
+          }
+        };
+        btnjsonreq.open("GET", "./data.json");
+        btnjsonreq.send();
       });
     </script>
   </body>
