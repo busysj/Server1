@@ -1,10 +1,10 @@
 // 미들웨어를 확인하기 위한 서버
 const express = require("express");
-// morgan 모듈 가져오기
+// morgan 모듈 가져오기 : 클라이언트의 접속 현황을 로그로 출력
 const morgan = require("morgan");
-// cookie-parser 모듈 가져오기
+// cookie-parser 모듈 가져오기 : 쿠키를 가져오거나 생성후 보낼 수 있다
 const cookieParser = require("cookie-parser");
-// body-parser 모듈 가져오기
+// body-parser 모듈 가져오기 : request.body의 값을 가져올 수 있다
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -65,7 +65,7 @@ app.post("/a", (request, response) => {
 
 // bodyParser를 통한 body 값 가져오기
 app.post("/post", (request, response) => {
-  const name = request.body.name;
+  const name = request.body.name; // json, x-www-form-urlencoded
   response.send(`<h1>${name} post</h1>`);
 });
 
